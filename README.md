@@ -1,9 +1,9 @@
 # <center>NOMAD的超级电容模组开源
 
 项目负责人：
-<img src="\Doc\Picture\Wechat_Head.jpg" alt="Wechat_Head" width="100" height="100">
-<img src="\Doc\Picture\QQ_Head.jpg" alt="QQ_Head" width="100" height="100">
-<img src="\Doc\Picture\Bilbili_Head.jpg" alt="Bilbili_Head" width="100" height="100">
+<img src="\Picture\Wechat_Head.jpg" alt="Wechat_Head" width="100" height="100">
+<img src="\Picture\QQ_Head.jpg" alt="QQ_Head" width="100" height="100">
+<img src="\Picture\Bilbili_Head.jpg" alt="Bilbili_Head" width="100" height="100">
 (没错都是我)
 
 ## <center>前言
@@ -21,7 +21,7 @@
 
 - 串联式降压/升压方案
 
-<img src="\Doc\Picture\TandemElevatorLoweringProgram.png" alt="TandemElevatorLoweringProgram">
+<img src="\Picture\TandemElevatorLoweringProgram.png" alt="TandemElevatorLoweringProgram">
 
 该方案被认为是出现在RoboMaster高校系列赛赛场上最古早的硬件方案。来源于裁判系统电源管理模块Chassis电源接口的电流经过恒流降压部分为超级电容组恒功率（等于裁判系统功率限制）充电。电容组（可能有恒流降压输出）的能量经过一升压部分传递给底盘动力系统。此外，存在一电子开关将裁判系统Chassis电源与底盘动力系统直接连接，当电容组电压足够低导致升压部分无法正常工作时将升压部分失能同时导通电子开关。
 
@@ -29,7 +29,7 @@
 
 - 并联式四开关方案
 
-<img src="\Doc\Picture\ParallelFourSwitchProgram.png" alt="ParallelFourSwitchProgram">
+<img src="\Picture\ParallelFourSwitchProgram.png" alt="ParallelFourSwitchProgram">
 
 该方案被普遍认为是当前RoboMaster高校系列赛赛场上的“版本答案”。将裁判系统Chassis电源串联一个ORing（这是可以省去的）后与底盘动力系统连接，将FSBB（Four-Switch-BuckBoost）与底盘动力系统所处网络并联，并将FSBB另一端与超级电容组连接。当底盘动力系统消耗功率低于裁判系统限制，FSBB将为超级电容组恒功率充电以保证裁判系统Chassis电源的输出功率与裁判系统功率限制保持一致；当底盘动力系统消耗功率高于裁判系统限制，FSBB将通过超级电容组的恒功率放电以保证裁判系统Chassis电源的输出功率与裁判系统功率限制保持一致。
 
@@ -37,7 +37,7 @@
 
 - 并联式两开关方案
 
-<img src="\Doc\Picture\ParallelTwoSwitchprogram.png" alt="ParallelTwoSwitchprogram">
+<img src="\Picture\ParallelTwoSwitchprogram.png" alt="ParallelTwoSwitchprogram">
 
 该方案被认为是并联四四开关方案的简化版本。将裁判系统Chassis电源串联一个ORing（这是可以省去的）后与底盘动力系统连接，将单半桥变换器与底盘动力系统所处网络并联，并将单半桥变换器另一端与超级电容组连接。当底盘动力系统消耗功率低于裁判系统限制，单半桥变换器将为超级电容组恒功率充电以保证裁判系统Chassis电源的输出功率与裁判系统功率限制保持一致；当底盘动力系统消耗功率高于裁判系统限制，单半桥变换器将通过超级电容组的恒功率放电以保证裁判系统Chassis电源的输出功率与裁判系统功率限制保持一致。
 
@@ -77,7 +77,7 @@
 >当前，INA197的价格可能是绝大部分队伍难以接受的，笔者也是趁着该芯片价格低廉时购买。笔者在该项目中将该芯片作为母线功率环路反馈的提供者。考虑到裁判系统仅以10Hz反馈Chassis功率，因此母线电流的电流感应放大器可以认为仅需保证具有足够高的共模电压以满足在RM赛事工况下不会对芯片造成损坏，从这个角度来看，国内外芯片厂具有更多性价比之选。笔者不建议通过低侧采样的方式检测母线电流，考虑到RM赛事中超级电容控制器与超级电容组之间存在裁判系统超级电容管理模块，该模块与裁判系统电源管理模块之间存在着4Pin通讯线的直接连接（包含GND），不排除电流从4PIN线直接回流至裁判系统电源管理模块的可能性，导致低侧采样出现失准。
 
 >针对于FSBB两端的电流采样，笔者认识到PWM抑制功能的用处是有限的。在INA240的数据手册-典型应用中，INA240被放置在半桥的SW网络检测无刷电机三相线的电流或螺线管的电流，但是INA240不适合放置在超级电容控制器的SW网络。下图为INA240数据手册中展示PWM抑制能力的曲线图，考察可知发生共模电压阶跃后输出反馈的失准时间约为1us，以该项目超级电容控制器为例，开关频率为160kHz，上升沿失准与下降沿失准占据整个开关周期约32%，半桥占空比较大或较小可能导致INA240无法反馈准确的电流值。笔者在此更推荐采用低侧电流检测方案并直接使用运放搭建采样电路，可以更好的降低成本并锻炼开发人员的模拟电路搭建调试能力。
-<img src="\Doc\Picture\INA240_PWMreject.PNG" alt="INA240_PWMreject">
+<img src="\Picture\INA240_PWMreject.PNG" alt="INA240_PWMreject">
 
 
 在该项目中，以下杂散物料的选型也值得一谈：
@@ -88,7 +88,7 @@
 
 其中，CL21B473KBCNNNC为三星的容值47nF的MLCC，笔者在迭代过程中发现半桥SW噪声约为40-50MHz，该噪声耦合到整板的电压轨与信号网络导致超级电容控制器工作出现异常。笔者了解到该MLCC在30-70Mhz下具有30~50mR的阻抗（见下图）,在关键位置的电源轨铺设该MLCC，提高了整机工作的稳定性；STM32G474系意法半导体推出的主流微控制器，D-Power产品组合的一员，专门针对数字电源相关应用，例如D-SMPS、照明、焊接、太阳能系统逆变器及无线充电器。内置高分辨率定时器可提供高达184ps的分辨率，为电源提供精确电流、功率控制。
 
-<img src="\Doc\Picture\CL21B473KBCNNNC-f-Z.PNG" alt="CL21B473KBCNNNC-f-Z">
+<img src="\Picture\CL21B473KBCNNNC-f-Z.PNG" alt="CL21B473KBCNNNC-f-Z">
 
 
 ### 关键电路设计
@@ -96,13 +96,13 @@
 
 - 半桥驱动电路
 
-<img src="\Doc\Picture\Driver_Sch.PNG" alt="Driver_Sch">
+<img src="\Picture\Driver_Sch.PNG" alt="Driver_Sch">
 
 对于半桥驱动器的控制部分，内置LDO未启用，电源轨直接使用数字信号的3V3电源；对于半桥驱动器的驱动部分，高侧N型开关管直接使用自举电路驱动，栅极驱动输出与开关管通过R1,R2电阻连接，用处是吸收Vgs振荡与减缓开关管的开启/关断时间以抑制电磁问题。R5、C13为RC组合，用于吸收半桥开关时SW网络的振荡能量，R、C值的敲定遵从[Analog Design Journal-Slyt740-Reducing noise on the output of a switching regulator](https://www.ti.com/lit/an/slyt740/slyt740.pdf?ts=1702068348410&ref_url=https%253A%252F%252Fwww.bing.com%252F)。
 <br>
 - 缓启动/防反接电路
 
-<img src="\Doc\Picture\PwrSafe_Sch.PNG" alt="PwrSafe_Sch">
+<img src="\Picture\PwrSafe_Sch.PNG" alt="PwrSafe_Sch">
 
 电源硬件缓启动依托P型开关管的弥勒效应实现。当VCC_bat电压上升，VCC_bat通过R7、R10给C16充电，延长Q6(NPN-bjt)开启时间，Q6开启过程中，R6两端压差逐渐增大，Q5的Rds快速减小，当VCC24_H网络有0电压迅速上升至VCC_bat，经过C17与D6为P型开关管补充电荷，延长米勒平台。在Q5完全开启后，母线上任何电压尖峰的能量都由D4(TVS)消耗。  
 防反接通过通过低侧N型开关管实现。当VCC24_H上升并保持稳定，经过R13、R14分压，Q7正常导通。当发生反接，GND_bat网络为电池电压，Vgs为0，Q7阻隔反向高压，实现防反接功能。考虑到未反接时，VCC24_H电压下降导致Q7挂断，此时GND为浮地，因此在GND与GND_bat间连接RC将GND网络下拉至GND_bat（别骂了笔者现在也觉得没啥用），反接时，电流从GND_bat经过该电阻与D7返回VCC_bat网络，板载芯片承受的负压仅为D7的反向偏置电压。
@@ -110,31 +110,31 @@
 <br>
 - 信号调理
 
-<img src="\Doc\Picture\INA240_Sch.PNG" alt="INA240_Sch">
+<img src="\Picture\INA240_Sch.PNG" alt="INA240_Sch">
 
 以INA240的电流检测电路为例，检流电阻两端经过R58、R59、C48、C49、C50到达INA240的差分采样引脚。R58、C48与R59、C50这两个RC组合用于抑制半桥SW噪声耦合到电源轨上导致的共模瞬变，C48、C50需要连接至模拟信号参考层，C49用于差模滤波与抑制共模滤波器一致性偏差导致的差模误差。  
 3V3电压基准经过L8（磁珠）与C27，经过INA240内部电阻分压为双向电流检测提供电压偏置。
 >之所以为带有PWM抑制功能的INA240添加共模RC滤波器的原因在"关键物料选型"小节有所提及，下图截取与INA240的用户手册，对于5R的外部电阻，增益误差仅为0.17%，因此依旧能维持足够高水平的一致性。
-><img src="\Doc\Picture\INA240_OutsideCommonModeFilter.PNG" alt="INA240_OutsideCommonModeFilter">
+><img src="\Picture\INA240_OutsideCommonModeFilter.PNG" alt="INA240_OutsideCommonModeFilter">
 
 ### Layout
 
-<img src="\Doc\Picture\Layer1.PNG" alt="Layer1">
-<img src="\Doc\Picture\Layer2.PNG" alt="Layer2">
-<img src="\Doc\Picture\Layer3.PNG" alt="Layer3">
-<img src="\Doc\Picture\Layer4.PNG" alt="Layer4">
+<img src="\Picture\Layer1.PNG" alt="Layer1">
+<img src="\Picture\Layer2.PNG" alt="Layer2">
+<img src="\Picture\Layer3.PNG" alt="Layer3">
+<img src="\Picture\Layer4.PNG" alt="Layer4">
 
 在PCB板上，功率部分与控制部分被严格分隔，功率线通过区域填充增加宽度保证了足够的承载电流能力。功率区域中，1层铺地用于提高散热能力，2层铺地尽可能完整用以抑制杂散噪声并屏蔽其对下层信号的影响，三层铺地用于辅助散热。4层地为功率地，布置为“工字形”以保证FSBB工作过程中尽可能小的回路面积，以减小对外的电磁干扰。  
 在控制区域，大部分信号器件贴装于1层，1层铺铜为数字信号参考层；2层为数字信号电源层，3层为模拟信号电源层，4层为模拟信号参考层。功率与信号的参考层通过与降压路径相同路径的走线进行单点连接，数字、模拟信号电源轨通过放置在微控制器模拟电源引脚附近的集中放置的过孔进行单点连接。
 
 ### 整体效果
-<img src="\Doc\Picture\HardwareOverview.jpg" alt="HavdwareOverview">
+<img src="\Picture\HardwareOverview.jpg" alt="HavdwareOverview">
 
 ## <center>控制器软件设计
 由于该项目中硬件与软件的耦合度较高，笔者对软件的开发伴随着硬件的研发工作持续了约1年的时间，不同部分的代码风格存在一定的变化。  
 完整的硬件设计请参考STM32项目工程文件，本文档仅对项目中的关键软件设计进行解释。
 ### 环路控制
-<img src="\Doc\Picture\LoopCtrl_Simulink.PNG" alt="LoopCtrl_Simulink">
+<img src="\Picture\LoopCtrl_Simulink.PNG" alt="LoopCtrl_Simulink">
 环路控制方案的框图如上图所示。  
 主环路为PID-FF-PID环路。最外层环路为母线（裁判系统Chassis电源输出）的功率PID环路，理想状态下，其期望恒定为裁判系统功率限制，反馈量为当前母线的实时功率，控制量为FSBB连接母线一端的期望功率（正负代表充电与放电）。
 
@@ -219,7 +219,7 @@ $$E = \frac{1}{2}·C·U^2 = 2045.45J$$
 
 考虑到200mA的泄放电流对于RoboMaster高校系列赛工况而言存在泄放能力不足的情况，考虑使用外置N型开关管AO3400A串联电阻作为主要泄放回路，BW6103此时仅用于泄放回路的触发。
 
-<img src="\Doc\Picture\Bank_Overview.jpg" alt="Bank_Overview">
+<img src="\Picture\Bank_Overview.jpg" alt="Bank_Overview">
 
 ## <center>实际表现
 
