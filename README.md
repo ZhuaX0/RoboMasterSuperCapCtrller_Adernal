@@ -219,6 +219,8 @@ $$E = \frac{1}{2}·C·U^2 = 2045.45J$$
 
 考虑到200mA的泄放电流对于RoboMaster高校系列赛工况而言存在泄放能力不足的情况，考虑使用外置N型开关管AO3400A串联电阻作为主要泄放回路，BW6103此时仅用于泄放回路的触发。
 
+提供超级电容组的PCB工程文件。
+
 <img src="\Picture\Bank_Overview.jpg" alt="Bank_Overview">
 
 ## <center>实际表现
