@@ -192,7 +192,7 @@ $$\alpha = \frac{U_1}{U_2} = \frac{D_2}{D_1}$$
 <br>
 - Mode  
 
-设定三种控制FSBB的模式，分别为Silent、Work、Charge。各模式具体机制参阅《Adrenal用户手册》。
+设定三种控制FSBB的模式，分别为Silent、Work、Charge。各模式具体机制参阅《Adrenal用户手册》。FSBB的参数设定于此，最高充放电功率设定为200W，电容组一端最高充放电电流设定为13.5A。
 <br>
 - UsrMsg  
 
