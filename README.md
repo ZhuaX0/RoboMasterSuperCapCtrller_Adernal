@@ -132,6 +132,8 @@
 
 ## <center>控制器软件设计
 由于该项目中硬件与软件的耦合度较高，笔者对软件的开发伴随着硬件的研发工作持续了约1年的时间，不同部分的代码风格存在一定的变化。  
+值得注意的是，由于控制方案的原因，本开源项目中提供的控制器软件设计并不能很好的发挥出控制器硬件的全部性能，详细的优化建议已在下文给出，根据优化建议对控制方案进行改进后，理论上将能发挥出控制器硬件的全部性能。  
+STM32工程中，需要单独将LowOptZone.c与Safety.c文件的优化等级设置为-O0，以避免控制执行出现异常的现象。
 完整的硬件设计请参考STM32项目工程文件，本文档仅对项目中的关键软件设计进行解释。
 ### 环路控制
 <img src="\Picture\LoopCtrl_Simulink.PNG" alt="LoopCtrl_Simulink">
@@ -224,6 +226,8 @@ $$E = \frac{1}{2}·C·U^2 = 2045.45J$$
 <img src="\Picture\Bank_Overview.jpg" alt="Bank_Overview">
 
 ## <center>实际表现
+
+[麦轮原地陀螺](https://www.bilibili.com/video/BV1j6TweaEU2/?vd_source=5b2eb473ca9053cf0f2716bc338a787a)
 
 ## <center>后记
 <!-- 感谢开源，感谢群友，感谢支持陪伴的人-->
